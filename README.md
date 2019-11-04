@@ -14,7 +14,7 @@ nvm install node
 
 Now clone this repository using `git`. Install `git` if it is not installed on your machine by `sudo apt install git`.
 ```
-git clone https://github.com/AKS1996/springfield.git
+git clone https://github.com/AKS1996/ML-App-Electron.git
 cd springfield
 ```
 
