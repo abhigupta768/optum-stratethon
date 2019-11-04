@@ -1,10 +1,8 @@
-# Springfield Challenge
+# ICU Patient Care - Optum Challenge
 
-This repository contains the code for our submission for Springfield Challenge held in Techfest 2018 which won us the first prize.
+This repository contains the code for our submission for Optum Challenge.
 
 # Installation Instructions
-
-## Ubuntu 16.04
 
 First you need to install Node.js. If you already have Node.js installed, skip the following commands.
 
@@ -16,7 +14,7 @@ nvm install node
 
 Now clone this repository using `git`. Install `git` if it is not installed on your machine by `sudo apt install git`.
 ```
-git clone https://github.com/vaishnavsm/springfield.git
+git clone https://github.com/AKS1996/springfield.git
 cd springfield
 ```
 
