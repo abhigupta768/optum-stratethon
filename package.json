@@ -1,0 +1,28 @@
+{
+  "name": "Springfield",
+  "version": "1.0.0",
+  "description": "ICU Patient Care",
+  "main": "main.js",
+  "author": "AKS1996",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^3.0.10",
+    "electron-reload": "^1.4.0"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.3",
+    "dialog": "^0.3.1",
+    "fs": "^0.0.1-security",
+    "html-pdf": "^2.2.0",
+    "jquery": "^3.3.1",
+    "nedb": "^1.8.0",
+    "pdf-to-text": "^0.0.7",
+    "pretty-data": "^0.40.0",
+    "remote": "^0.2.6",
+    "request-promise": "^4.2.2",
+    "textract": "^2.4.0"
+  }
+}

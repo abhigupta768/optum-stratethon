@@ -1,0 +1,69 @@
+<div class="content-wrapper pane-group">
+    <style>
+        tr.active{
+            outline: -webkit-focus-ring-color auto 5px;
+            outline-color: -webkit-focus-ring-color;
+            outline-style: auto;
+            outline-width: 5px;
+        }
+        .with-doc{
+            display: none;
+        }
+        .w-100{
+            width: 100%;
+        }
+        .w-33{
+            width: 33%;
+        }
+    </style>
+    <div class="pane-sm sidebar">
+        <ul class="list-group">
+            <li class="list-group-header">
+                <!-- <input class="form-control" type="text" id="new-ruleset" placeholder="Add Ruleset" style="width: 85%;">
+                <button class="btn btn-positive"  id="add-ruleset">
+                    <span class="icon icon-plus" style="color: white;"></span>
+                </button> -->
+                <strong>Document List</strong>
+            </li>
+        </ul>
+    </div>
+    <div class="pane">
+        <div class="padded-more">
+            <div class="with-doc">
+                <!-- <form>
+                    <input class="form-control" type="text" id="new-rule" placeholder="Add Rule" style="width: 90%;">
+                    <button class="btn btn-positive"  id="add-rule">
+                        <span class="icon icon-plus" style="color: white;"></span>
+                    </button>
+                </form>
+                <br /> -->
+                <table class="table-striped">
+                    <thead>
+                        <tr>
+                        <th>Rule</th>
+                        <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="without-doc">
+                <h3>Please Select A Document</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="header-wrapper">
+</div>
+<div class="footer-wrapper">
+    <div class="btn-group">
+        <button class="btn btn-default"  id="export">
+            <span class="icon icon-export icon-text"></span>
+            Export
+        </button>
+    </div>
+    <button class="btn btn-primary pull-right" id="save-state">
+        Save State
+    </button>   
+</div>

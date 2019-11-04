@@ -1,0 +1,113 @@
+<div class="content-wrapper pane-group">
+    <style>
+        tr.active{
+            outline: -webkit-focus-ring-color auto 5px;
+            outline-color: -webkit-focus-ring-color;
+            outline-style: auto;
+            outline-width: 5px;
+        }
+        .selected-group, .view-pane ,.view-group, .tagging-header{
+            display: none;
+        }
+
+        .w-100{
+            width: 100%;
+        }
+        .w-33{
+            width: 33%;
+        }
+    </style>
+    <div class="pane">
+        <div class="padded-more">
+            <h5>Extracted Text</h5>
+            <table class="table-striped">
+                <thead>
+                    <tr>
+                    <th>Document Name</th>
+                    <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>    
+    </div>
+    <div class="pane view-pane">
+        <header class="toolbar toolbar-header">            
+            <div class="toolbar-actions">
+                <div class="btn-group">
+                    <button class="btn btn-positive view-group"  id="save-view">
+                        <span class="icon icon-check icon-text" style="color: white;"></span>
+                        Save
+                    </button>
+                    <button class="btn btn-default"  id="tag-selection">
+                        <span class="icon icon-tag icon-text"></span>
+                        Tag On Selection
+                    </button>
+                </div>
+                <button class="btn btn-negative pull-right"  id="discard-view">
+                    <span class="icon icon-cancel icon-text" style="color: white;"></span>
+                    Discard
+                </button>
+            </div>
+            <div class="toolbar toolbad-header tagging-header">
+                <form style="display: inline-flex;">
+                    <select class="form-control" id="ruleset-list">
+                    </select>
+                    <select class="form-control" id="rule-list">
+                    </select>
+                </form>
+                <button class="btn btn-primary pull-right"  id="tag">
+                    <span class="icon icon-check icon-text" style="color: white;"></span>
+                    Tag
+                </button>
+            </div>
+        </header>
+        <div class="window-content">
+            <div class="padded-more w-100">
+                <form class="w-100">
+                    <label>Document OCR Text.</label>
+                    <div class="form-group">
+                        <input type="text" placeholder="Selected Test" disabled id="selection"/>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="27" id="doc-text"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="header-wrapper">
+    <button class="btn btn-primary"  id="ocr">
+        <span class="icon icon-doc-text icon-text" style="color: white;"></span>
+        Extract Text From Documents
+    </button>
+    <div class="btn-group selected-group">
+        <button class="btn btn-default"  id="train-rule">
+            <span class="icon icon-progress-2 icon-text"></span>
+            Train Rule on Selected
+        </button>
+        <button class="btn btn-default"  id="view">
+            <span class="icon icon-eye icon-text"></span>
+            View/Modify Selected
+        </button>
+    </div>
+    <div class="btn-group selected-group">
+        <button class="btn btn-warning"  id="remove-doc">
+            <span class="icon icon-trash icon-text" style="color: white;"></span>
+            Remove Document
+        </button>
+    </div>
+</div>
+<div class="footer-wrapper">
+    <div class="btn-group">
+        <button class="btn btn-default"  id="classify">
+            <span class="icon icon-cog icon-text"></span>
+            Classify
+        </button>
+    </div>
+    <button class="btn btn-primary pull-right" id="save-state">
+        Save State
+    </button>   
+</div>

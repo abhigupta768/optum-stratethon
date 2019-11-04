@@ -1,0 +1,8 @@
+node_modules/
+yarn.lock
+.idea/
+package-lock.json
+*.pyc
+*.pyo
+*.db
+*.log

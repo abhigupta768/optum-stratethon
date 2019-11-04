@@ -1,0 +1,89 @@
+<div class="content-wrapper pane-group">
+    <style>
+        tr.active{
+            outline: -webkit-focus-ring-color auto 5px;
+            outline-color: -webkit-focus-ring-color;
+            outline-style: auto;
+            outline-width: 5px;
+        }
+        .with-ruleset, .with-rule{
+            display: none;
+        }
+        .w-100{
+            width: 100%;
+        }
+        .w-33{
+            width: 33%;
+        }
+    </style>
+    <div class="pane-sm sidebar">
+        <ul class="list-group">
+            <li class="list-group-header">
+                <input class="form-control" type="text" id="new-ruleset" placeholder="Add Ruleset" style="width: 85%;">
+                <button class="btn btn-positive"  id="add-ruleset">
+                    <span class="icon icon-plus" style="color: white;"></span>
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div class="pane">
+        <div class="padded-more">
+            <div class="with-ruleset">
+                <form>
+                    <input class="form-control" type="text" id="new-rule" placeholder="Add Rule" style="width: 90%;">
+                    <button class="btn btn-positive"  id="add-rule">
+                        <span class="icon icon-plus" style="color: white;"></span>
+                    </button>
+                </form>
+                <br />
+                <table class="table-striped">
+                    <thead>
+                        <tr>
+                        <th>Rule</th>
+                        <th>Number of Examples</th>
+                        <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="without-ruleset">
+                <h3>Please Select A Ruleset</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="header-wrapper">
+    <div class="btn-group with-ruleset">
+        <button class="btn btn-primary"  id="train-ruleset">
+            <span class="icon icon-progress-1 icon-text" style="color: white;"></span>
+            Train Ruleset
+        </button>
+        <button class="btn btn-default"  id="apply-ruleset">
+            <span class="icon icon-cog icon-text"></span>
+            Apply Ruleset
+        </button>
+    </div>
+    <div class="btn-group with-ruleset pull-right">
+        <button class="btn btn-warning with-rule"  id="delete-rule">
+            <span class="icon icon-cancel icon-text" style="color: white;"></span>
+            Delete Rule
+        </button>
+        <button class="btn btn-negative"  id="delete-ruleset">
+            <span class="icon icon-trash icon-text" style="color: white;"></span>
+            Delete Ruleset
+        </button>
+    </div>
+</div>
+<div class="footer-wrapper">
+    <div class="btn-group">
+        <button class="btn btn-default"  id="classify">
+            <span class="icon icon-cog icon-text"></span>
+            Classify
+        </button>
+    </div>
+    <button class="btn btn-primary pull-right" id="save-state">
+        Save State
+    </button>   
+</div>
