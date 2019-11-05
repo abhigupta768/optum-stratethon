@@ -25,11 +25,11 @@ const predict = (fname) => {
     request.post('http://127.0.0.1:5122/predict',
         { json: { filename: fname} },
         function (error, response, body) {
-            $(document).find("#prediction-result").text(body);
             if (body[0]==='True')
                 $(document).find("#prediction-result").text("Patient dies with probability "+body[1]);
             else
                 $(document).find("#prediction-result").text("Patient survives with probability "+1-parseFloat(body[1]));
+            $(document).find("#important-vitals").text(body[2]);
         }
     );
 };

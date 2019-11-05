@@ -26,12 +26,13 @@ def scale(X_train, X_test, X_val = np.empty([0,])):
         return X_tr, X_te, X_va
     return X_tr, X_te
 
+mlist = ['A','B','C']
 
 @app.route("/predict", methods=['POST'])
 def predict():
     fname = request.json['filename']
     data = pd.read_csv(fname)
-    data = data.drop(columns=['Timestamp'])
+    # data = data.drop(columns=['Timestamp'])
     data.loc[(data.Gender < 0),'Gender'] = np.NaN
     data.loc[(data.Weight < 30),'Weight'] = np.NaN
     data.loc[(data.DiasABP < 10),'DiasABP'] = np.NaN
@@ -44,7 +45,7 @@ def predict():
     model = p.load(open("model\XGB.pickle.dat","rb"))
     outcome = (model.predict_proba(data_t)[:, 1] >= .311)
     prob = model.predict_proba(data_t)
-    return jsonify(str(outcome[0]),str(prob[0, 1]))
+    return jsonify(str(outcome[0]),str(prob[0, 1]),mlist)
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5122)
