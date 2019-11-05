@@ -54,7 +54,7 @@ def predict():
     if outcome==True:
         time_p = "The patient is still in a critical stage. Right now, the most accurate prediction in terms of survival cannot be made."
     else:
-        time_p = "The patient can now safely survive according to the given vitals. This is after "+str(timestamp)+" hrs post admission."
+        time_p = "The patient can now safely survive according to the given vitals. This is after "+str(timestamp/100)+" hrs post admission."
     prob = model.predict_proba(data_t)
     return jsonify(str(outcome[0]),str(prob[0, 1]),missing_iv, time_p)
 

@@ -32,7 +32,8 @@ const predict = (fname) => {
                 var probs = prob.toString();
                 $(document).find("#prediction-result").text("Patient survives with probability "+probs);
             $(document).find("#time-prediction").text(body[3]);
-            $(document).find("#important-vitals").text("The most important vitals that need to be noted for better judgement in order of their importances are "+body[2]);
+            $(document).find("#iv-holder").text("The most important vitals that need to be noted for better judgement in order of their importances are:");
+            $(document).find("#important-vitals").text(body[2]);
         }
     );
 };
