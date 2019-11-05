@@ -25,10 +25,17 @@ const predict = (fname) => {
     request.post('http://127.0.0.1:5122/predict',
         { json: { filename: fname} },
         function (error, response, body) {
-            alert(body);
-            con.log(body);
+            $(document).find("#prediction-result").text(body);
+            if (body[0]==='True')
+                $(document).find("#prediction-result").text("Patient dies with probability "+body[1]);
+            else
+                $(document).find("#prediction-result").text("Patient survives with probability "+1-parseFloat(body[1]));
         }
     );
+};
+
+const enter_manually = () => {
+    loadState("enter-manually");
 };
 
 const on_init = (_document, _store, _volatile_store)=>{
@@ -37,9 +44,7 @@ const on_init = (_document, _store, _volatile_store)=>{
     volatile_store = _volatile_store;
     $(document).find("#select-csv").on('click', select_csv);
     $(document).find("#enter-manually").on('click', enter_manually);
-    $(document).find("#save-state").on('click', save_state);
     volatile_store["selected"] = [];
-    updateDocumentList();
 };
 
 const on_unload = (document)=>{

@@ -31,6 +31,7 @@ def scale(X_train, X_test, X_val = np.empty([0,])):
 def predict():
     fname = request.json['filename']
     data = pd.read_csv(fname)
+    data = data.drop(columns=['Timestamp'])
     data.loc[(data.Gender < 0),'Gender'] = np.NaN
     data.loc[(data.Weight < 30),'Weight'] = np.NaN
     data.loc[(data.DiasABP < 10),'DiasABP'] = np.NaN
