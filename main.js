@@ -7,16 +7,16 @@ if(DEBUG) require('electron-reload');
 var window;
 const backend = "http://127.0.0.1:5122";
 const request = require('request-promise');
-var backendProc = null;
+// var backendProc = null;
 const initWindow = function(){
     window = new BrowserWindow({width: 1072, height: 603});
     window.setMenuBarVisibility(false);
     window.loadFile("frontend/loading.html");
     console.log('Starting Server');
     //Start Python Dev Server
-    backendProc = require("child_process").spawn("python", ['.\\backend.py']);
-    waitForBackend();
-    // window.loadFile("frontend/index.html");
+    // backendProc = require("child_process").spawn("python", ['.\\backend.py']);
+    // waitForBackend();
+    window.loadFile("frontend/index.html");
 };
 
 const waitForBackend = function(){
@@ -33,7 +33,7 @@ const waitForBackend = function(){
 app.on('ready', initWindow);
 app.on('window-all-closed', ()=>{
     app.quit();
-    backendProc.kill('SIGINT');
+    // backendProc.kill('SIGINT');
 });
 electron.app.on('browser-window-created',(e,window) => {
     // window.setMenu(null);

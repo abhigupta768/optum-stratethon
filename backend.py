@@ -2,6 +2,12 @@ from flask import Flask, request, jsonify
 import time
 import json
 import regex
+import pandas as pd
+import numpy as np
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+from sklearn.preprocessing import StandardScaler
+import pickle as p
 app = Flask(__name__)
 regexps = dict()
 
@@ -9,121 +15,34 @@ regexps = dict()
 def echo():
     return json.dumps({"started":"true"})
 
-@app.route("/add_rule", methods=['POST'])
-def add_rule():
-    """Adds rule.
+def scale(X_train, X_test, X_val = np.empty([0,])):
+    std=p.load(open("scaler.p","rb"))
+    X_tr = std.transform(X_train.values)
+    X_te = std.transform(X_test.values)
+    
+    #When I want to test the set and the data
+    if X_val.size != 0 :
+        X_va = std.transform(X_val.values)
+        return X_tr, X_te, X_va
+    return X_tr, X_te
 
-    JSON Args:
-        ruleset: Name of the document type eg. Cargo-Slips, Insurance-Documents
-        tags: a list of field and context
-            field: Name of the field. eg. "Insured"
-            data: Info of interest
-            context: Context around the data (including the data). eg. "Insured:\n\nABC, Inc and/or Associated"
 
-    Demo data:
-    {
-    	"ruleset":"Cargo Slip",
-    	"tags":[
-    		{
-    			"field":"Company-Name",
-    			"data":"Lloyd & Partners Pvt. Ltd.",
-    			"context":"are Lloyd & Partners Pvt. Ltd. not"
-    		},
-    		{
-    			"field":"Balance-Paid",
-    			"data":"1,500,000",
-    			"context":"USD 1,500,000 any"
-    		},
-    		{
-    			"field":"Policy-ID",
-    			"data":"B0000DC1234567000",
-    			"context":"Reference:        B0000DC1234567000 Attaching"
-    		}
-    	]
-    }
-    """
-
-    ruleset = request.json['ruleset']
-    regexps[ruleset] = dict()
-
-    for field_dict in request.json['tags']:
-        context = field_dict['context']
-        field = field_dict['field']
-        data = field_dict['data']
-
-        if data not in context:
-            return 'Context should contain data.'
-
-        data_pattern = '(['
-        if regex.search(r'[a-z]', data):
-            data_pattern += 'a-z'
-        if regex.search(r'[A-Z]', data):
-            data_pattern += 'A-Z' 
-        if regex.search(r'[0-9]', data):
-            data_pattern += '0-9'
-        if regex.search(r'\s', data):
-            data_pattern += r'\s'
-        if regex.search(r'[^a-zA-Z0-9\s]', data):
-            data_pattern += '.'
-        data_pattern += ']{0,' + str(len(data) + 20) + '})'
-
-        pattern = context.replace(data, data_pattern)
-        regexps[ruleset][field] = pattern
-
-    return "200"
-
-@app.route("/extract", methods=['POST'])
-def extract():
-    """Extracts data.
-
-    JSON Args:
-        ruleset: Name of the document type eg. Cargo-Slips, Insurance-Documents
-        text: Text extracted from document through OCR.
-
-    Demo Data:
-    {
-        "ruleset":"Cargo Slip",
-        "files":[
-            {
-                "name": "/home/akshay/Downloads/SOV_2.pdf",
-                "content": "are Google Inc. not USD 20,000 any Reference:        F0000DC1234567000 Attaching"
-            },
-            {
-                "name": "/home/akshay/Downloads/Sample_2_IIT.pdf",
-                "content": "are Facebook LLC. not USD 100,000 any Reference:        F0000FF1234567000 Attaching"
-            }
-        ]
-    }
-
-    Returns:
-        data: Map of field and corresponding data
-    """
-
-    ruleset = request.json['ruleset']
-    output = dict()
-
-    for file_dict in request.json['files']:
-        name = file_dict['name'] 
-        content = file_dict['content']
-        output[name] = []
-        
-        regexps_ruleset = regexps.get(ruleset, dict())
-        for field in regexps_ruleset.keys():
-            regexp = regexps_ruleset[field]
-            result = regex.search("(?b)(%s){e<=7}" % regexp, content)
-
-            temp = {"key":field}
-
-            if result is None:
-                temp["val"] = " "
-            else:
-                if len(result.groups())>1:
-                    temp["val"] = result.groups()[1]
-                else:
-                    temp["val"] = " "
-            output[name].append(temp)
-
-    return jsonify(output)
+@app.route("/predict", methods=['POST'])
+def predict():
+    data = pd.read_csv("data.csv")
+    data.loc[(data.Gender < 0),'Gender'] = np.NaN
+    data.loc[(data.Weight < 30),'Weight'] = np.NaN
+    data.loc[(data.DiasABP < 10),'DiasABP'] = np.NaN
+    data.loc[(data.SysABP < 10),'SysABP'] = np.NaN
+    data.loc[(data.MAP < 10),'MAP'] = np.NaN
+    imp=p.load(open("imputer.p","rb"))
+    data_t = imp.transform(data)
+    data_t = pd.DataFrame(data_t, columns=data.columns)
+    data_t, data_t = scale(data_t, data_t)
+    model = p.load(open("XGB.pickle.dat","rb"))
+    outcome = (model.predict_proba(data_t)[:, 1] >= .311)
+    prob = model.predict_proba(data_t)
+    return [outcome[0],prob[0, 1]]
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5122)
