@@ -4,8 +4,8 @@ var request = require('request');
 const con = require('electron').remote.getGlobal('console');
 var dialog = electron.remote.dialog; // Load the dialogs component of the OS
 
-let params = ['Age','BUN','Creatinine','DiasABP','FiO2','GCS','Glucose','HCO3','HCT','HR','ICUType','K','MAP','Mg','Na'
-    ,'PaCO2','PaO2','Platelets','Gender','SysABP','Temp','Urine','WBC','Weight','pH','Timestamp'];
+let params = ['Timestamp','RecordID','Age','BUN','Creatinine','DiasABP','FiO2','GCS','Glucose','HCO3','HCT','HR','ICUType','K','MAP','Mg','Na'
+    ,'PaCO2','PaO2','Platelets','Gender','SysABP','Temp','Urine','WBC','Weight','pH'];
 
 const proceed = () => {
     // create csv
@@ -31,14 +31,14 @@ const proceed = () => {
 };
 
 const predict = (fname) => {
-    request.post('http://127.0.0.1:5122/predict',
+    request.post('http://localhost:2000/predict',
         { json: { filename: fname} },
         function (error, response, body) {
             if (body[0]==='True')
                 $(document).find("#prediction-result").text("Patient dies with probability "+body[1]);
             else
                 $(document).find("#prediction-result").text("Patient survives with probability "+1-parseFloat(body[1]));
-            $(document).find("#important-vitals").text(body[2]);
+            $(document).find("#important-vitals").text("The most important vitals that need to be noted in order of their importances are "+body[2]);
         }
     );
 };

@@ -16,7 +16,7 @@ def echo():
     return json.dumps({"started":"true"})
 
 def scale(X_train, X_test, X_val = np.empty([0,])):
-    std=p.load(open("model\scaler.p","rb"))
+    std=p.load(open("./model/scaler.p","rb"))
     X_tr = std.transform(X_train.values)
     X_te = std.transform(X_test.values)
     
@@ -26,26 +26,32 @@ def scale(X_train, X_test, X_val = np.empty([0,])):
         return X_tr, X_te, X_va
     return X_tr, X_te
 
-mlist = ['A','B','C']
 
 @app.route("/predict", methods=['POST'])
 def predict():
     fname = request.json['filename']
     data = pd.read_csv(fname)
-    # data = data.drop(columns=['Timestamp'])
+    data = data.drop(columns=['Timestamp', 'RecordID'])
+    mif = p.load(open("./model/mif.p","rb"))
+    missing_iv = []
+    for vital in mif:
+        if data[vital].isnull()[0]==True:
+            missing_iv.append(vital)
+    if len(missing_iv) is 0:
+        missing_iv = "None."
     data.loc[(data.Gender < 0),'Gender'] = np.NaN
     data.loc[(data.Weight < 30),'Weight'] = np.NaN
     data.loc[(data.DiasABP < 10),'DiasABP'] = np.NaN
     data.loc[(data.SysABP < 10),'SysABP'] = np.NaN
     data.loc[(data.MAP < 10),'MAP'] = np.NaN
-    imp=p.load(open("model\imputer.p","rb"))
+    imp=p.load(open("./model/imputer.p","rb"))
     data_t = imp.transform(data)
     data_t = pd.DataFrame(data_t, columns=data.columns)
     data_t, data_t = scale(data_t, data_t)
-    model = p.load(open("model\XGB.pickle.dat","rb"))
+    model = p.load(open("./model/XGB.pickle.dat","rb"))
     outcome = (model.predict_proba(data_t)[:, 1] >= .311)
     prob = model.predict_proba(data_t)
-    return jsonify(str(outcome[0]),str(prob[0, 1]),mlist)
+    return jsonify(str(outcome[0]),str(prob[0, 1]),missing_iv)
 
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=5122)
+    app.run(host='localhost', port=2000)
