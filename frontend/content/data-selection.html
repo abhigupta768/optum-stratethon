@@ -1,0 +1,31 @@
+<div class="content-wrapper padded-more">
+    <style>
+        tr.active{
+            outline: -webkit-focus-ring-color auto 5px;
+            outline-color: -webkit-focus-ring-color;
+            outline-style: auto;
+            outline-width: 5px;
+        }
+        .selected-group{
+            display: none;
+        }
+    </style>
+    <h5>Enter patient data</h5>
+    Patient Name: <input type="text" placeholder="John Doe"><br>
+    Patient ID: <input type="text" placeholder="12345"><br>
+    <button class="btn btn-default" id="select-csv">
+        <span class="icon icon-plus-squared icon-text"></span>
+        Select CSV
+    </button>
+    <button class="btn btn-default" id="enter-manually">
+        <span class="icon icon-picture icon-text"></span>
+        Enter manually
+    </button>
+</div>
+<div class="header-wrapper">
+</div>
+<div class="footer-wrapper">
+    <button class="btn btn-primary pull-right" id="save-state">
+        Save State
+    </button>
+</div>

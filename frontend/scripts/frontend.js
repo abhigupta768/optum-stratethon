@@ -109,7 +109,7 @@ const loadState = (state)=>{
 };
 
 $(document).ready(()=>{
-    loadState("documents");
+    loadState("data-selection");
     // loadState("rules");
     $(".nav-group-item").on("click", (e)=>{
         const id = e.currentTarget.id;
