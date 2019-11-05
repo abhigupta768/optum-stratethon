@@ -31,6 +31,7 @@ def scale(X_train, X_test, X_val = np.empty([0,])):
 def predict():
     fname = request.json['filename']
     data = pd.read_csv(fname)
+    timestamp = data['Timestamp'][0]
     data = data.drop(columns=['Timestamp', 'RecordID'])
     mif = p.load(open("./model/mif.p","rb"))
     missing_iv = []
@@ -50,8 +51,12 @@ def predict():
     data_t, data_t = scale(data_t, data_t)
     model = p.load(open("./model/XGB.pickle.dat","rb"))
     outcome = (model.predict_proba(data_t)[:, 1] >= .311)
+    if outcome==True:
+        time_p = "The patient is still in a critical stage. Right now, the most accurate prediction in terms of survival cannot be made."
+    else:
+        time_p = "The patient can now safely survive according to the given vitals. This is after "+str(timestamp)+" hrs post admission."
     prob = model.predict_proba(data_t)
-    return jsonify(str(outcome[0]),str(prob[0, 1]),missing_iv)
+    return jsonify(str(outcome[0]),str(prob[0, 1]),missing_iv, time_p)
 
 if __name__ == "__main__":
     app.run(host='localhost', port=2000)

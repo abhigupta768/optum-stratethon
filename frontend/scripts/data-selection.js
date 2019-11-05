@@ -28,8 +28,11 @@ const predict = (fname) => {
             if (body[0]==='True')
                 $(document).find("#prediction-result").text("Patient dies with probability "+body[1]);
             else
-                $(document).find("#prediction-result").text("Patient survives with probability "+1-parseFloat(body[1]));
-            $(document).find("#important-vitals").text("The most important vitals that need to be noted in order of their importances are "+body[2]);
+                var prob = 1-parseFloat(body[1]);
+                var probs = prob.toString();
+                $(document).find("#prediction-result").text("Patient survives with probability "+probs);
+            $(document).find("#time-prediction").text(body[3]);
+            $(document).find("#important-vitals").text("The most important vitals that need to be noted for better judgement in order of their importances are "+body[2]);
         }
     );
 };
@@ -37,6 +40,7 @@ const predict = (fname) => {
 const enter_manually = () => {
     loadState("enter-manually");
 };
+
 
 const on_init = (_document, _store, _volatile_store)=>{
     document = _document;
