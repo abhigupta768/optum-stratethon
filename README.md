@@ -23,7 +23,13 @@ Now install the dependencies. Install `pip` first if you don't have it installed
 npm install
 pip install -r requirements
 ```
-You can now start the application by
+
+Now start the server
+```
+python backend.py
+```
+
+And finally the application
 ```
 npm start
 ```
