@@ -25,12 +25,14 @@ const predict = (fname) => {
     request.post('http://127.0.0.1:2000/predict',
         { json: { filename: fname} },
         function (error, response, body) {
-            if (body[0]==='True')
+            if (body[0]==='True'){
                 $(document).find("#prediction-result").text("Patient dies with probability "+body[1]);
-            else
+            }
+            else{
                 var prob = 1-parseFloat(body[1]);
                 var probs = prob.toString();
                 $(document).find("#prediction-result").text("Patient survives with probability "+probs);
+            }
             $(document).find("#time-prediction").text(body[3]);
             $(document).find("#iv-holder").text("The most important vitals that need to be noted for better judgement in order of their importances are:");
             $(document).find("#important-vitals").text(body[2]);
