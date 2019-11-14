@@ -43,7 +43,7 @@ def predict():
         if data[vital].isnull()[0]==True:
             missing_iv.append(vital)
     if len(missing_iv) is 0:
-        missing_iv = "None."
+        missing_iv = "None"
     data.loc[(data.Gender < 0),'Gender'] = np.NaN
     data.loc[(data.Weight < 30),'Weight'] = np.NaN
     data.loc[(data.DiasABP < 10),'DiasABP'] = np.NaN
@@ -56,9 +56,9 @@ def predict():
     model = p.load(open("./model/XGB.pickle.dat","rb"))
     outcome = (model.predict_proba(data_t)[:, 1] >= .311)
     if outcome==True:
-        time_p = "The patient is still in a critical stage. Right now, the most accurate prediction in terms of survival cannot be made."
+        time_p = "The patient is still in a <span style='color: #8a1e19'><b>critical stage</b></span>. Right now, the most accurate prediction in terms of survival cannot be made."
     else:
-        time_p = "The patient can now safely survive according to the given vitals. This is after "+str(timestamp/100)+" hrs post admission."
+        time_p = "The patient can now <span style='color: #8a1e19'><b>safely survive</b></span> according to the given vitals. This is after <span style='color: #8a1e19'><b>"+str(timestamp/100)+"</b></span> hrs post admission."
     prob = model.predict_proba(data_t)
     return jsonify(str(outcome[0]),str(prob[0, 1]),missing_iv, time_p)
 

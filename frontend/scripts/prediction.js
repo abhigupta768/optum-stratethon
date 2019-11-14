@@ -10,16 +10,16 @@ const predict = () => {
         { json: { recordID: record_id} },
         function (error, response, body) {
             if (body[0]==='True'){
-                $(document).find("#prediction-result").text("Patient dies with probability "+body[1]);
+                $(document).find("#prediction-result").html("Patient <span style='color: #8a1e19'><b>dies</b></span> with probability <span style='color: #8a1e19'><b>"+body[1]+"</b></span>");
             }
             else{
                 var prob = 1-parseFloat(body[1]);
                 var probs = prob.toString();
-                $(document).find("#prediction-result").text("Patient survives with probability "+probs);
+                $(document).find("#prediction-result").html("Patient <span style='color: #8a1e19'><b>survives</b></span> with probability <span style='color: #8a1e19'><b>"+probs+"</b></span>");
             }
-            $(document).find("#time-prediction").text(body[3]);
+            $(document).find("#time-prediction").html(body[3]);
             $(document).find("#iv-holder").text("The most important vitals that need to be noted for better judgement in order of their importances are:");
-            $(document).find("#important-vitals").text(body[2]);
+            $(document).find("#important-vitals").html("<b>"+body[2]+"</b>");
         }
     );
 };
