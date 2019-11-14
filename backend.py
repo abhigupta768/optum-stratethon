@@ -29,9 +29,13 @@ def scale(X_train, X_test, X_val = np.empty([0,])):
 
 @app.route("/predict", methods=['POST'])
 def predict():
-    fname = request.json['filename']
-    data = pd.read_csv(fname)
-    timestamp = data['Timestamp'][0]
+    recordID = request.json['recordID']
+    master = pd.read_csv("master.csv")
+    data = master[master['RecordID']==int(recordID)]
+    ts = data['Timestamp'].tolist()
+    ts = sorted(ts)
+    timestamp = ts[-1]
+    data = pd.DataFrame(data.mean()).transpose()
     data = data.drop(columns=['Timestamp', 'RecordID'])
     mif = p.load(open("./model/mif.p","rb"))
     missing_iv = []
@@ -57,6 +61,21 @@ def predict():
         time_p = "The patient can now safely survive according to the given vitals. This is after "+str(timestamp/100)+" hrs post admission."
     prob = model.predict_proba(data_t)
     return jsonify(str(outcome[0]),str(prob[0, 1]),missing_iv, time_p)
+
+@app.route("/add_details", methods=['POST'])
+def add_details():
+    fname = request.json['filename']
+    data = pd.read_csv(fname)
+    master = pd.read_csv("master.csv")
+    master = master.append(data, ignore_index=True)
+    master.to_csv("master.csv", index=None)
+
+@app.route("/view_details", methods=['POST'])
+def view_details():
+    recordID = request.json['recordID']
+    master = pd.read_csv("master.csv")
+    data = master[master['RecordID']==int(recordID)]
+    return jsonify(data.transpose().to_html(classes='table table-striped" id= "a_nice_table', border=0, header=None, bold_rows=True))
 
 if __name__ == "__main__":
     app.run(host='localhost', port=2000)
