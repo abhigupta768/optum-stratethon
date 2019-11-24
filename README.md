@@ -1,6 +1,6 @@
-# ICU Patient Care - Optum Challenge
+# ICU Patient Care - Optum Stratethon
 
-This repository contains the code for our submission for Optum Challenge.
+This repository contains the code for our submission for Optum Stratethon.
 
 # Installation Instructions
 
