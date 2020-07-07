@@ -14,8 +14,8 @@ nvm install node
 
 Now clone this repository using `git`. Install `git` if it is not installed on your machine by `sudo apt install git`.
 ```
-git clone https://github.com/AKS1996/ML-App-Electron.git
-cd springfield
+git clone https://github.com/abhigupta768/optum-stratethon.git
+cd optum-stratethon
 ```
 
 Now install the dependencies. Install `pip` first if you don't have it installed by `sudo apt install python-pip`
